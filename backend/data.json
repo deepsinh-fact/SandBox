@@ -1,0 +1,23 @@
+[
+    {
+        "ClientId": 1,
+        "ClientName": "ABC Corporation",
+        "Address": "101 Main Street, Mumbai, MH, India",
+        "MobileNumber": "+91-9876543210",
+        "SecretKey": "abc123XYZ!"
+    },
+    {
+        "ClientId": 2,
+        "ClientName": "Delta Technologies",
+        "Address": "22 Park Avenue, Bangalore, KA, India",
+        "MobileNumber": "+91-9123456780",
+        "SecretKey": "deltaTech@2025"
+    },
+    {
+        "ClientId": 3,
+        "ClientName": "Global Solutions",
+        "Address": "88 Sector 14, Gurugram, HR, India",
+        "MobileNumber": "+91-9988776655",
+        "SecretKey": "gSolutions#456"
+    }
+]

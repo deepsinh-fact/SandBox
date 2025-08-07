@@ -1,0 +1,844 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer utilities {
+	.bg-transparent {
+		background-color: transparent;
+	}
+}
+
+@font-face {
+	font-family: 'DMSans';
+	src: url('./assets/font/DM_Sans/DMSans-VariableFont_opsz\,wght.ttf') format('truetype');
+	font-weight: 100 900;
+	/* variable weight range */
+	/* font-style: normal; */
+	/* font-display: swap; */
+}
+
+/* * {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+} */
+
+* {
+	font-family: "DMSans", sans-serif !important;
+}
+
+:root {
+	--gst: #5CB67C;
+	--cin: #F9BA5D;
+	--din: #60A5FA;
+	--pan: #7D60D8;
+	--upi: #C7B6F3;
+	--msme: #EF4190;
+	--mobile: #FF9A6C;
+	--iec: #ED553B;
+	--osint: #173F5F;
+	--mad: #173F5F;
+	--bank: #4169E1;
+}
+
+* {
+	outline: none;
+}
+
+html::-webkit-scrollbar {
+	width: 5px;
+}
+
+/* html::-webkit-scrollbar-track {
+    background-image: linear-gradient(to top, rgba(0, 26, 255, 0.452), rgb(255, 0, 0), rgba(255, 196, 0, 0.432), rgba(245, 0, 233, 0.281));
+} */
+
+/* html::-webkit-scrollbar-button {
+    background-color: rgba(184, 176, 255, 0.788);
+} */
+
+html::-webkit-scrollbar-thumb {
+	background-color: #1b254b;
+	border-radius: 10px;
+
+}
+
+.custom-table::-webkit-scrollbar {
+	width: 5px;
+}
+
+.custom-table::-webkit-scrollbar-thumb {
+	background-color: #1b254b;
+	border-radius: 10px;
+
+}
+
+.bg-gst {
+	background-color: var(--gst);
+}
+
+.bg-cin {
+	background: var(--cin);
+}
+
+.bg-din {
+	background: var(--din);
+}
+
+.bg-pan {
+	background: var(--pan);
+}
+
+.bg-upi {
+	background: var(--upi);
+}
+
+.bg-msme {
+	background: var(--msme);
+}
+
+.bg-mobile {
+	background: var(--mobile);
+}
+
+.bg-mad {
+	background: var(--mad);
+}
+
+.text-mad {
+	color: var(--mad);
+}
+
+.bg-bank {
+	background: var(--bank);
+}
+
+.text-bank {
+	color: var(--bank);
+}
+
+.text-gst {
+	color: var(--gst);
+}
+
+
+.text-cin {
+	color: var(--cin);
+}
+
+.text-din {
+	color: var(--din);
+}
+
+.text-pan {
+	color: var(--pan);
+}
+
+.text-upi {
+	color: var(--upi);
+}
+
+.text-msme {
+	color: var(--msme);
+}
+
+.text-mobile {
+	color: var(--mobile);
+}
+
+.bg-iec {
+	background: var(--iec);
+}
+
+.text-iec {
+	color: var(--iec);
+}
+
+.bg-iec {
+	background: var(--iec);
+}
+
+.text-iec {
+	color: var(--iec);
+}
+
+.bg-osint {
+	background: var(--osint);
+}
+
+.text-osint {
+	color: var(--osint);
+}
+
+/* -----------------------------------messageapi------------------------------------------------ */
+/* -----------------------------------messageapi------------------------------------------------ */
+@layer components {
+	body.dark .custom-class-messageapi .ant-message-notice-content {
+		@apply rounded-[10px] bg-navy-700 text-white shadow-xl shadow-shadow-500;
+	}
+
+	.custom-class-messageapi .ant-message-notice-content {
+		@apply rounded-[10px] bg-white text-navy-700 shadow-xl shadow-shadow-500;
+	}
+}
+
+/* -----------------------------------messageapi------------------------------------------------ */
+/* -----------------------------------messageapi------------------------------------------------ */
+
+@layer base {
+	html {
+		font-family: 'DM Sans', sans-serif !important;
+		font-feature-settings: 'kern' !important;
+		-webkit-font-smoothing: antialiased;
+		letter-spacing: -0.5px;
+	}
+}
+
+input.defaultCheckbox::before {
+	content: url(../src/assets/svg/checked.svg);
+	color: white;
+	opacity: 0;
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, 0px);
+}
+
+input:checked.defaultCheckbox::before {
+	opacity: 1;
+}
+
+
+/* Custom CSS for Ant Design Notifications */
+
+/* Set the background color for different types of notifications */
+.ant-notification.ant-notification-success {
+	background-color: #f6ffed;
+	/* Light green background for success */
+	color: #389e0d;
+	/* Dark green text color */
+}
+
+th .anticon {
+	color: #fff;
+}
+
+.ant-notification.ant-notification-error {
+	background-color: #fff2f0;
+	/* Light red background for error */
+	color: #f5222d;
+	/* Dark red text color */
+}
+
+.ant-notification.ant-notification-info {
+	background-color: #e6f7ff;
+	/* Light blue background for info */
+	color: #1890ff;
+	/* Blue text color */
+}
+
+.ant-notification.ant-notification-warning {
+	background-color: #fffbe6;
+	/* Light yellow background for warning */
+	color: #faad14;
+	/* Yellow text color */
+}
+
+/* Additional customization for the bottom right positioning */
+.ant-notification-notice {
+	border-radius: 8px;
+	/* Rounded corners */
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	/* Add shadow for better visibility */
+	animation: fadeIn 0.5s ease-in-out;
+	/* Add fade-in animation */
+}
+
+
+.ant-modal-content {
+	/* padding: 0 !important; */
+	/* border-radius: 10px !important;
+	overflow: hidden !important; */
+}
+
+
+/* -----------------------------------Table------------------------------------------------ */
+
+@layer components {
+	body.dark .table-container {
+		@apply bg-gray-700 font-dm;
+		/* Dark background for table container in dark mode */
+	}
+
+	/* Table header (Dark Mode) */
+	body.dark .ant-table-thead>tr>th {
+		@apply !bg-navy-600 text-gray-100 font-dm;
+		/* Darker blue and lighter text */
+	}
+
+	.custom-table .table-container {
+		@apply p-4 bg-white rounded-lg shadow-md font-dm;
+	}
+
+	/* Dark mode table container */
+
+
+	/* Table header (Light Mode) */
+	.custom-table .ant-table-thead>tr>th {
+		@apply !bg-navy-700 text-white font-semibold font-dm;
+		/* Blue header with white text */
+	}
+
+
+
+	/* Table row styles (Light Mode) */
+	.custom-table .ant-table-tbody>tr>td {
+		@apply bg-white font-dm;
+		/* White background for table rows */
+	}
+
+	/* Table row styles (Dark Mode) */
+	body.dark .ant-table-tbody>tr>td {
+		@apply bg-gray-800 text-white font-dm;
+		/* Dark background with white text for rows in dark mode */
+	}
+
+	/* Alternating row colors (Light Mode) */
+	.custom-table .ant-table-tbody>tr:nth-child(even)>td {
+		@apply bg-gray-100 font-dm;
+		/* Light gray background for even rows */
+	}
+
+	/* Alternating row colors (Dark Mode) */
+	body.dark .ant-table-tbody>tr:nth-child(even)>td {
+		@apply bg-gray-600 font-dm;
+		/* Dark gray for even rows */
+	}
+
+	/* Hover effect for table rows (Light Mode) */
+	.custom-table .ant-table-tbody>tr:hover {
+		@apply !bg-gray-900;
+		/* Light gray background on hover */
+	}
+
+	/* Hover effect for table rows (Dark Mode) */
+	body.dark .ant-table-tbody>tr:hover {
+		@apply bg-gray-900;
+		/* Dark gray background on hover in dark mode */
+	}
+
+	/* Hover effect for individual table cells (Light Mode) */
+	.custom-table .ant-table-tbody>tr:hover>td {
+		@apply bg-gray-200;
+		/* Light gray background on hover for cells */
+	}
+
+	/* Hover effect for individual table cells (Dark Mode) */
+	body.dark .ant-table-tbody>tr:hover>td {
+		@apply bg-gray-900;
+		/* Dark gray background on hover for cells in dark mode */
+	}
+
+}
+
+@layer components {
+
+	/* Table container without border and rounded corners */
+	body.dark .table-container {
+		@apply bg-gray-700 font-dm;
+		/* Dark background for table container in dark mode */
+	}
+
+	.custom-table .table-container {
+		@apply p-4 bg-white font-dm;
+		/* No rounded corners and no shadow, just padding and background */
+	}
+
+	/* Table header (Light Mode) without rounded corners */
+	.custom-table .ant-table-thead>tr>th {
+		@apply !bg-navy-700 text-white font-semibold font-dm;
+		/* Blue header with white text */
+		border: none;
+		/* Remove border */
+	}
+
+	/* Table header (Dark Mode) without rounded corners */
+	body.dark .ant-table-thead>tr>th {
+		@apply !bg-navy-600 text-gray-100 font-dm;
+		/* Darker blue background and lighter text for dark mode */
+		border: none;
+		/* Remove border */
+	}
+
+	/* Table row styles (Light Mode) */
+	.custom-table .ant-table-tbody>tr>td {
+		@apply bg-white font-dm;
+		/* White background for table rows in light mode */
+		border: none;
+		/* Remove border */
+		transition: background-color 0.3s ease;
+		/* Smooth transition for hover effect */
+	}
+
+	/* Table row styles (Dark Mode) */
+	body.dark .ant-table-tbody>tr>td {
+		@apply bg-gray-800 text-white font-dm;
+		/* Dark background with white text for rows in dark mode */
+		border: none;
+		/* Remove border */
+		transition: background-color 0.3s ease;
+		/* Smooth transition for hover effect */
+	}
+
+	/* Alternating row colors (Light Mode) */
+	.custom-table .ant-table-tbody>tr:nth-child(even)>td {
+		@apply bg-gray-100 font-dm;
+		/* Light gray background for even rows */
+		border: none;
+		/* Remove border */
+	}
+
+	/* Alternating row colors (Dark Mode) */
+	body.dark .ant-table-tbody>tr:nth-child(even)>td {
+		@apply bg-gray-600 font-dm;
+		/* Dark gray for even rows in dark mode */
+		border: none;
+		/* Remove border */
+	}
+
+	/* Hover effect for table rows (Light Mode) */
+	.custom-table .ant-table-tbody>tr:hover {
+		@apply bg-gray-200;
+		/* Light gray background on row hover */
+	}
+
+	/* Hover effect for table rows (Dark Mode) */
+	body.dark .ant-table-tbody>tr:hover {
+		@apply bg-gray-700;
+		/* Dark gray background on row hover in dark mode */
+	}
+
+	/* Hover effect for individual table cells (Light Mode) */
+	.custom-table .ant-table-tbody>tr:hover>td {
+		@apply bg-gray-300;
+		/* Light gray background on hover for cells in light mode */
+	}
+
+	/* Hover effect for individual table cells (Dark Mode) */
+	body.dark .ant-table-tbody>tr:hover>td {
+		@apply bg-gray-800;
+		/* Dark gray background on hover for cells in dark mode */
+	}
+}
+
+
+/* -----------------------------------Table------------------------------------------------ */
+
+
+/* -----------------------------------Modal------------------------------------------------ */
+
+
+
+@layer components {
+	.ant-modal-content {
+		@apply !bg-white rounded-lg shadow-md font-dm;
+	}
+
+	body.dark .ant-modal-content {
+		@apply !bg-navy-900 rounded-lg shadow-md font-dm;
+	}
+
+	body.dark .ant-modal-title {
+		@apply !bg-navy-900 font-dm text-white;
+	}
+
+	body.dark .ant-modal-close {
+		@apply text-white font-dm;
+	}
+
+	body.dark .ant-modal-close:hover {
+		@apply text-navy-400;
+	}
+
+}
+
+
+/* -----------------------------------Modal------------------------------------------------ */
+
+
+
+/* -----------------------------------active-tab------------------------------------------------ */
+
+.active-tab {
+	position: relative;
+	/* border: 1px solid #dddddd; */
+	/* box-shadow: 0px 7px 8px rgba(16, 24, 40, 0.1); */
+	/* border-bottom: none; */
+	border-top: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+}
+
+.active-tab::before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	/* background-color: #4318ff; */
+}
+
+/* -----------------------------------active-tab------------------------------------------------ */
+
+
+/* -----------------------------------custom-phone-input------------------------------------------------ */
+
+
+
+@layer components {
+
+	/* Dark and light mode */
+	.custom-phone-input {
+		@apply !border !border-gray-300 !rounded-md !px-3 !py-1;
+	}
+
+	body.dark .custom-phone-input {
+		@apply !border !border-gray-600 !rounded-md !px-3 !py-1;
+	}
+
+	.custom-phone-input input {
+		@apply !border-none bg-transparent !p-2;
+	}
+
+	.custom-phone-input .PhoneInputCountry select {
+		@apply !border-none bg-white !p-2;
+	}
+
+	body.dark .custom-phone-input .PhoneInputCountry select {
+		@apply !border-none bg-navy-900 !p-2;
+	}
+
+
+}
+
+
+/* -----------------------------------Modal------------------------------------------------ */
+
+/* -----------------------------------loader------------------------------------------------ */
+/* -----------------------------------loader------------------------------------------------ */
+.loader {
+	width: 45px;
+	height: 40px;
+	background: linear-gradient(#0000 calc(1*100%/6), #fff 0 calc(3*100%/6), #0000 0),
+		linear-gradient(#0000 calc(2*100%/6), #fff 0 calc(4*100%/6), #0000 0),
+		linear-gradient(#0000 calc(3*100%/6), #fff 0 calc(5*100%/6), #0000 0);
+	background-size: 10px 400%;
+	background-repeat: no-repeat;
+	animation: matrix 1s infinite linear;
+}
+
+@keyframes matrix {
+	0% {
+		background-position: 0% 100%, 50% 100%, 100% 100%
+	}
+
+	100% {
+		background-position: 0% 0%, 50% 0%, 100% 0%
+	}
+}
+
+
+/* -----------------------------------loader------------------------------------------------ */
+
+/* From Uiverse.io by talhabangyal */
+.hamburger {
+	cursor: pointer;
+}
+
+.hamburger input {
+	display: none;
+}
+
+.hamburger svg {
+	/* The size of the SVG defines the overall size */
+	height: 2em;
+	/* Define the transition for transforming the SVG */
+	transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+	fill: none;
+	stroke: #1b254b;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 3;
+	/* Define the transition for transforming the Stroke */
+	transition:
+		stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+		stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+	stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked+svg {
+	transform: rotate(-45deg);
+}
+
+.hamburger input:checked+svg .line-top-bottom {
+	stroke-dasharray: 20 300;
+	stroke-dashoffset: -32.42;
+}
+
+
+/* ..................GST Cuntery Table........................... */
+/* From Uiverse.io by GustavoAlmeidaPuff */
+/* theme-mode-style */
+.mode+.container {
+	--color-pure: #000;
+	--color-primary: #f4f7fe;
+	--color-secondary: #1b254b;
+	--muted: #fff;
+}
+
+.mode:checked+.container {
+	--color-pure: #fff;
+	--color-primary: #1b254b;
+	--color-secondary: #fff;
+	--muted: #fff;
+}
+
+.container {
+	/* background-color: var(--color-secondary); */
+	/* position: absolute; */
+	/* display: flex; */
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.container .theme {
+	color: var(--color-secondary);
+	background-color: var(--color-primary);
+	position: relative;
+	cursor: pointer;
+	z-index: 9;
+	-webkit-user-select: none;
+	user-select: none;
+	border: 1px solid var(--muted);
+	border-radius: calc(var(--round) - var(--p-y));
+	margin-left: calc(var(--p-x) * 2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 5px;
+	transition: background-color 0.25s linear;
+}
+
+.container .theme:hover {
+	background-color: var(--muted);
+}
+
+.container .theme::before {
+	content: "";
+	position: absolute;
+	left: calc(var(--p-x) * -1);
+	width: 1px;
+	height: 100%;
+	background-color: var(--muted);
+}
+
+.container .theme span {
+	border: none;
+	outline: none;
+	background-color: transparent;
+	padding: 0.125rem;
+	border-radius: 9999px;
+	align-items: center;
+	justify-content: center;
+}
+
+.mode:checked+.container .theme span.light,
+.mode+.container .theme span.dark {
+	display: none;
+}
+
+.mode+.container .theme span.light,
+.mode:checked+.container .theme span.dark {
+	display: flex;
+}
+
+.container .theme svg {
+	stroke-linejoin: round;
+	stroke-linecap: round;
+	stroke: currentColor;
+	fill: none;
+	height: 22px;
+	width: 22px;
+}
+
+/* main style */
+.wrap {
+	--round: 10px;
+	--p-x: 8px;
+	--p-y: 4px;
+	--w-label: 110px;
+	display: flex;
+	align-items: center;
+	padding: var(--p-y) var(--p-x);
+	position: relative;
+	background: var(--color-primary);
+	border-radius: var(--round);
+	max-width: 100%;
+	overflow-x: auto;
+	scrollbar-width: none;
+	-webkit-overflow-scrolling: touch;
+	top: 0;
+	z-index: 1;
+}
+
+.wrap input {
+	height: 0;
+	width: 0;
+	position: absolute;
+	overflow: hidden;
+	display: none;
+	visibility: hidden;
+}
+
+.label {
+	cursor: pointer;
+	outline: none;
+	font-size: 0.875rem;
+	letter-spacing: initial;
+	font-weight: 500;
+	color: var(--color-secondary);
+	background: transparent;
+	padding: 12px 16px;
+	width: var(--w-label);
+	min-width: var(--w-label);
+	text-decoration: none;
+	-webkit-user-select: none;
+	user-select: none;
+	transition: color 0.25s ease;
+	outline-offset: -6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	z-index: 2;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.label span {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+}
+
+.wrap input[class*="rd-"]:checked+label {
+	color: var(--color-pure);
+}
+
+.bar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	position: absolute;
+	transform-origin: 0 0 0;
+	height: 100%;
+	width: var(--w-label);
+	z-index: 0;
+	transition: transform 0.5s cubic-bezier(0.33, 0.83, 0.99, 0.98);
+}
+
+.bar::before,
+.bar::after {
+	content: "";
+	position: absolute;
+	height: 2px;
+	width: 100%;
+	background: var(--color-secondary);
+}
+
+.bar::before {
+	top: 0;
+	border-radius: 0 0 9999px 9999px;
+}
+
+.bar::after {
+	bottom: 0;
+	border-radius: 9999px 9999px 0 0;
+}
+
+.slidebar {
+	position: absolute;
+	height: calc(100% - (var(--p-y) * 4));
+	width: var(--w-label);
+	border-radius: calc(var(--round) - var(--p-y));
+	background: var(--muted);
+	transform-origin: 0 0 0;
+	z-index: 0;
+	transition: transform 0.5s cubic-bezier(0.33, 0.83, 0.99, 0.98);
+}
+
+.rd-1:checked~.bar,
+.rd-1:checked~.slidebar,
+.rd-1+label:hover~.slidebar {
+	transform: translateX(0) scaleX(1);
+}
+
+.rd-2:checked~.bar,
+.rd-2:checked~.slidebar,
+.rd-2+label:hover~.slidebar {
+	transform: translateX(100%) scaleX(1);
+}
+
+.rd-3:checked~.bar,
+.rd-3:checked~.slidebar,
+.rd-3+label:hover~.slidebar {
+	transform: translateX(200%) scaleX(1);
+}
+
+/* ..................GST Cuntery Table........................... */
+
+/* .........................Start Upload Ant Design Drag and Drop........................................ */
+:where(.css-dev-only-do-not-override-mc1tut).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture .ant-upload-list-item-error,
+:where(.css-dev-only-do-not-override-mc1tut).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-error,
+:where(.css-dev-only-do-not-override-mc1tut).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-circle .ant-upload-list-item-error {
+	border-color: green !important;
+}
+
+:where(.css-dev-only-do-not-override-ut69n1).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error .ant-upload-list-item-name,
+:where(.css-dev-only-do-not-override-ut69n1).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error .ant-upload-icon .anticon {
+	color: green !important;
+
+}
+
+:where(.css-dev-only-do-not-override-mc1tut).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error .ant-upload-list-item-name,
+:where(.css-dev-only-do-not-override-mc1tut).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error .ant-upload-icon .anticon {
+	color: green;
+}
+
+:where(.css-dev-only-do-not-override-mc1tut).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error .ant-upload-list-item-actions .anticon,
+:where(.css-dev-only-do-not-override-mc1tut).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error .ant-upload-list-item-actions .anticon:hover {
+	color: green;
+}
+
+:where(.css-dev-only-do-not-override-cdzvx5).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error {
+	color: green !important;
+}
+
+:where(.css-dev-only-do-not-override-cdzvx5).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error .ant-upload-list-item-name,
+:where(.css-dev-only-do-not-override-cdzvx5).ant-upload-wrapper .ant-upload-list .ant-upload-list-item-error .ant-upload-icon .anticon {
+	color: green !important;
+}
+
+/* .........................End Upload Ant Design Drag and Drop........................................ */
