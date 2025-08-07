@@ -1,46 +1,45 @@
-// Import the mysql package
-const mysql = require('mysql');
+// Import the mssql package for SQL Server
+const sql = require('mssql');
 
-// Configuration for the database connection
+// Load environment variables
+require('dotenv').config();
+
+// Configuration for SQL Server with Windows Authentication
 const config = {
-    host: "localhost",
-    user: "root",
-    password: "your_mysql_password_here", // Add your MySQL password here
-    database: "portal_db"
+    server: process.env.DB_SERVER || "FACT-LAP-07", // Your SQL Server instance
+    database: process.env.DB_NAME || "FACT",
+    driver: "msnodesqlv8",
+    options: {
+        trustedConnection: true, // Use Windows Authentication
+        enableArithAbort: true,
+        encrypt: false, // Set to true if using SSL
+        trustServerCertificate: true,
+        instanceName: process.env.DB_INSTANCE || undefined
+    }
 };
 
-// Async function to connect and query the database
+// Async function to connect and query SQL Server
 async function connectAndQuery() {
-    const connection = mysql.createConnection(config);
+    try {
+        // Create connection pool
+        const pool = await sql.connect(config);
+        console.log('** Connected to SQL Server successfully!');
 
-    return new Promise((resolve, reject) => {
-        connection.connect((err) => {
-            if (err) {
-                console.error('MySQL connection error:', err);
-                reject(err);
-                return;
-            }
+        // Execute a test query
+        const result = await pool.request().query('SELECT 1 as test, GETDATE() as current_time');
+        
+        console.log('Query Results:');
+        console.table(result.recordset);
 
-            console.log('** Connected to MySQL successfully!');
-
-            // Execute a query to test connection
-            connection.query('SELECT 1 as test', (error, results) => {
-                if (error) {
-                    console.error('Query error:', error);
-                    connection.end();
-                    reject(error);
-                    return;
-                }
-
-                console.log('Query Results:');
-                console.table(results);
-
-                connection.end();
-                console.log('Connection closed.');
-                resolve(results);
-            });
-        });
-    });
+        // Close the connection
+        await pool.close();
+        console.log('Connection closed.');
+        
+        return result.recordset;
+    } catch (err) {
+        console.error('SQL Server connection error:', err);
+        throw err;
+    }
 }
 
 // Run the function only if this file is executed directly

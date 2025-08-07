@@ -28,7 +28,7 @@ export const Usersignin = createAsyncThunk(
         method: "POST",
         baseURL: CONFIG.BASE_URL_LOGIN,
         // headers: authheader,
-        url: `/api/login`,
+        url: `/api/auth/login`,
         data: { ...userdata, devicePlateform: "web" },
       });
       if (result.data.success) {
@@ -102,7 +102,7 @@ export const ReUsersignin = createAsyncThunk(
         method: "POST",
         baseURL: CONFIG.BASE_URL_LOGIN,
         // headers: authheader,
-        url: `/api/login`,
+        url: `/api/auth/login`,
         data: { ...userdata, devicePlateform: "web" },
       });
       if (result.data.success) {
