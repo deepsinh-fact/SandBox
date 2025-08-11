@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+import mysql from 'mysql';
 
 // Create connection pool for better performance
 const pool = mysql.createPool({
@@ -25,10 +25,10 @@ const connectDB = async () => {
       }
       
       console.log('Connected to MySQL database successfully!');
-      connection.release(); // Release connection back to pool
+      connection.release(); 
       resolve();
     });
   });
 };
 
-module.exports = { connectDB, pool };
+export { connectDB, pool };

@@ -1,15 +1,10 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+import { connectDB } from './config/db.js';
+import setupRoutes from './routes/index.js';
 
 const app = express();
 const PORT = 3000;
-
-// Import database connection (using SQLite)
-const { connectDB } = require('./config/db.js');
-
-
-const authRoutes = require('./routes/auth');
-const clientRoutes = require('./routes/client');
 
 app.use(cors({
     origin: 'http://localhost:5173',
@@ -27,22 +22,21 @@ app.get('/', (req, res) => {
     });
 });
 
-
-app.use('/api/auth', authRoutes);
-app.use('/api/client', clientRoutes);
+// Setup all API routes
+setupRoutes(app);
 
 // Initialize database and start server
 const startServer = async () => {
     try {
-        // Connect to SQL Server
-        await connectDB();
+        // Skip database connection check for now - using direct SQL Server connection in routes
+        console.log('Starting server with SQL Server connection...');
 
         app.listen(PORT, () => {
             console.log(`Node.js Authentication API listening on http://localhost:${PORT}`);
-            console.log('Available endpoints:');
+
             console.log('\nTest credentials:');
             console.log('  Email: test@gmail.com, Password: password123');
-            console.log('  Email: admin@example.com, Password: admin123');
+            // console.log('  Email: admin@example.com, Password: admin123');
         });
     } catch (error) {
         console.error('Failed to start server:', error);

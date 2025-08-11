@@ -7,6 +7,7 @@ import DashIcon from "./components/icons/DashIcon";
 import Infodata from "./data/Infodata.js";
 import dashboardw from "./assets/img/logo/deshboardwhite.png";
 import Client from "./views/pages/client";
+import ClientMaster from "./views/pages/ClientMaster";
 
 const routes = [
   {
@@ -27,6 +28,14 @@ const routes = [
     path: "client",
     component: <Client />,
     icon: { iconlight: Infodata.dashboardw, bgcoloer: "bg-purple-700" },
+
+  },
+  {
+    name: "Client Master",
+    layout: "/admin",
+    path: "client-master",
+    component: <ClientMaster />,
+    icon: { iconlight: Infodata.dashboardw, bgcoloer: "bg-green-700" },
 
   }
 

@@ -1,6 +1,7 @@
 import moment from "moment";
 import ServiceApiName from "./ServiceApiName";
 import ServiceRegExr from "./RegExr";
+import CONFIG from "../Config";
 
 const setauthToken = async (token) => {
   try {
@@ -505,6 +506,74 @@ const apiMap = {
 };
 const unique = (arr) => [...new Set(arr)];
 
+// Client API functions
+const fetchClients = async () => {
+  try {
+    console.log('Fetching from URL:', `${CONFIG.BASE_URL_ALL}/api/client`);
+    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/client`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('Non-JSON response:', text);
+      throw new Error('Server returned non-JSON response');
+    }
+    
+    const result = await response.json();
+    console.log('Service fetchClients result:', result);
+    return result;
+  } catch (error) {
+    console.error('Error fetching clients:', error);
+    throw error;
+  }
+};
+
+const fetchClientMasters = async () => {
+  try {
+    console.log('Fetching from URL:', `${CONFIG.BASE_URL_ALL}/api/client/masters`);
+    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/client/masters`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('Non-JSON response:', text);
+      throw new Error('Server returned non-JSON response');
+    }
+    
+    const result = await response.json();
+    console.log('Service fetchClientMasters result:', result);
+    return result;
+  } catch (error) {
+    console.error('Error fetching client masters:', error);
+    throw error;
+  }
+};
+
+const createClientMaster = async (clientData) => {
+  try {
+    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/clientmaster/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(clientData)
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error creating client master:', error);
+    throw error;
+  }
+};
+
 const Service = {
   setauthToken,
   setIsLoginData,
@@ -541,6 +610,9 @@ const Service = {
   getAuthUser,
   getValidationRule,
   apiMap,
-  unique
+  unique,
+  fetchClients,
+  fetchClientMasters,
+  createClientMaster
 };
 export default Service;
