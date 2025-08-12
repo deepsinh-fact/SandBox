@@ -511,18 +511,18 @@ const fetchClients = async () => {
   try {
     console.log('Fetching from URL:', `${CONFIG.BASE_URL_ALL}/api/client`);
     const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/client`);
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    
+
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       const text = await response.text();
       console.error('Non-JSON response:', text);
       throw new Error('Server returned non-JSON response');
     }
-    
+
     const result = await response.json();
     console.log('Service fetchClients result:', result);
     return result;
@@ -534,32 +534,48 @@ const fetchClients = async () => {
 
 const fetchClientMasters = async () => {
   try {
-    console.log('Fetching from URL:', `${CONFIG.BASE_URL_ALL}/api/client/masters`);
-    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/client/masters`);
-    
+    console.log('Fetching from URL:', `${CONFIG.BASE_URL_ALL}/api/clientmaster/getAllClient`);
+    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/clientmaster/getAllClient`);
+
+    console.log('Response status:', response.status);
+    console.log('Response headers:', response.headers);
+
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorText = await response.text();
+      console.error('HTTP error response:', errorText);
+      throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
     }
-    
+
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       const text = await response.text();
       console.error('Non-JSON response:', text);
       throw new Error('Server returned non-JSON response');
     }
-    
+
     const result = await response.json();
     console.log('Service fetchClientMasters result:', result);
     return result;
   } catch (error) {
     console.error('Error fetching client masters:', error);
+
+    // If it's a network error, try to provide more helpful information
+    if (error.message.includes('Failed to fetch')) {
+      console.error('Network error - is the backend server running on http://localhost:3000?');
+      return {
+        success: false,
+        message: 'Cannot connect to server. Please check if the backend is running on http://localhost:3000',
+        data: []
+      };
+    }
+
     throw error;
   }
 };
 
 const createClientMaster = async (clientData) => {
   try {
-    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/clientmaster/`, {
+    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/clientmaster/addClient`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -570,6 +586,62 @@ const createClientMaster = async (clientData) => {
     return result;
   } catch (error) {
     console.error('Error creating client master:', error);
+    throw error;
+  }
+};
+
+const updateClientMaster = async (clientId, clientData) => {
+  try {
+    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/clientmaster/updateClient/${clientId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(clientData)
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error updating client master:', error);
+    throw error;
+  }
+};
+
+const deleteClientMaster = async (clientId) => {
+  try {
+    console.log('=== SERVICE DELETE START ===');
+    console.log('Service: ClientId to delete:', clientId);
+    console.log('Service: Making DELETE request to:', `${CONFIG.BASE_URL_ALL}/api/clientmaster/deleteClient/${clientId}`);
+
+    const response = await fetch(`${CONFIG.BASE_URL_ALL}/api/clientmaster/deleteClient/${clientId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    console.log('Service: Response received');
+    console.log('Service: Response status:', response.status);
+    console.log('Service: Response ok:', response.ok);
+    console.log('Service: Response headers:', response.headers);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Service: HTTP error response:', errorText);
+      throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+    }
+
+    const result = await response.json();
+    console.log('Service: Delete response result:', result);
+    console.log('Service: Result success:', result.success);
+    console.log('Service: Result message:', result.message);
+    console.log('=== SERVICE DELETE END ===');
+    return result;
+  } catch (error) {
+    console.error('Service: Error deleting client master:', error);
+    console.error('Service: Error message:', error.message);
+    console.error('Service: Error stack:', error.stack);
+    console.log('=== SERVICE DELETE END (ERROR) ===');
     throw error;
   }
 };
@@ -613,6 +685,8 @@ const Service = {
   unique,
   fetchClients,
   fetchClientMasters,
-  createClientMaster
+  createClientMaster,
+  updateClientMaster,
+  deleteClientMaster
 };
 export default Service;

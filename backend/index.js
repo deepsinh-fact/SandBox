@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import { connectDB } from './config/db.js';
 import setupRoutes from './routes/index.js';
 
 const app = express();
@@ -25,10 +24,9 @@ app.get('/', (req, res) => {
 // Setup all API routes
 setupRoutes(app);
 
-// Initialize database and start server
+// Start server
 const startServer = async () => {
     try {
-        // Skip database connection check for now - using direct SQL Server connection in routes
         console.log('Starting server with SQL Server connection...');
 
         app.listen(PORT, () => {

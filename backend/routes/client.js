@@ -75,9 +75,15 @@ router.get('/', async (req, res) => {
     }
 });
 
+
 // GET /api/client/:id - Get client by ID from database
 router.get('/:id', async (req, res) => {
     try {
+        console.log('=== ID ROUTE HIT ===');
+        console.log('Request URL:', req.url);
+        console.log('Request path:', req.path);
+        console.log('Request params:', req.params);
+        
         const { createRequire } = await import('module');
         const require = createRequire(import.meta.url);
         const sql = require('msnodesqlv8');

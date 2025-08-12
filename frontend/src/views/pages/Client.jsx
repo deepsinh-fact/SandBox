@@ -4,7 +4,7 @@ import { TBSelector } from '../../Store/Reducers/TBSlice';
 import Service from '../../Service/Service';
 import CONFIG from '../../Config';
 import TableComponents from '../../components/ant/TableComponents';
-// import 
+
 export default function Client() {
     const userData = Service.getUserdata();
     const { user } = useSelector(TBSelector);
@@ -91,7 +91,7 @@ export default function Client() {
             setLoading(true);
             setError(null);
             console.log('Fetching client data from:', `${CONFIG.BASE_URL_ALL}/api/client`);
-            
+
             const result = await Service.fetchClients();
             console.log('API Response:', result);
 
@@ -100,7 +100,7 @@ export default function Client() {
                     ...client,
                     key: client.AutoId?.toString() || client.Client_ClientId?.toString()
                 }));
-                console.log('Transformed data:', transformedData);
+                
                 setClientData(transformedData);
             } else {
                 setError(result?.message || 'Failed to fetch client data');
@@ -130,16 +130,7 @@ export default function Client() {
                         <h2 className="text-2xl font-bold text-navy-700 dark:text-white">
                             Client Information
                         </h2>
-                        <button
-                            onClick={fetchClientData}
-                            disabled={loading}
-                            className="bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
-                        >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                            </svg>
-                            {loading ? 'Refreshing...' : 'Refresh'}
-                        </button>
+                     
                     </div>
 
                     {error && (

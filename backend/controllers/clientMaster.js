@@ -1,19 +1,7 @@
-import express from 'express';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const sql = require('msnodesqlv8');
 import 'dotenv/config';
-
-const router = express.Router();
-
-// Add route handlers to router
-router.get('/getAllClient', async (req, res) => {
-    return getAllClient(req, res);
-});
-
-router.get('/getClientByID/:id', async (req, res) => {
-    return getClientById(req, res);
-});
 
 
 // Connection string for msnodesqlv8 with Windows Authentication
@@ -22,13 +10,30 @@ const connectionString = `server=${process.env.DB_SERVER || "FACT-LAP-07"};Datab
 // Helper function to execute SQL queries
 const executeQuery = (queryString, params = []) => {
     return new Promise((resolve, reject) => {
-        sql.query(connectionString, queryString, params, (err, rows) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(rows);
-            }
-        });
+        // console.log('Executing query:', queryString);
+        // console.log('With params:', params);
+
+        if (params.length === 0) {
+            // If no parameters, use simple query
+            sql.query(connectionString, queryString, (err, rows) => {
+                if (err) {
+                    console.error('SQL Error:', err);
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        } else {
+            // Use parameterized query
+            sql.query(connectionString, queryString, params, (err, rows) => {
+                if (err) {
+                    console.error('SQL Error:', err);
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        }
     });
 };
 
@@ -61,14 +66,14 @@ const generateClientId = async () => {
 // GET /api/clientmaster/getAllClient - Get all clients
 export const getAllClient = async (req, res) => {
     try {
-        console.log('Fetching all clients from ClientMaster table');
+        // console.log('Fetching all clients from ClientMaster table');
 
         const selectQuery = `
             SELECT * FROM ClientMaster 
         `;
 
         const clients = await executeQuery(selectQuery);
-        console.log('Fetched clients from database:', clients);
+        // console.log('Fetched clients from database:', clients);
 
         res.json({
             success: true,
@@ -77,6 +82,112 @@ export const getAllClient = async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching clients:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+};
+
+// PUT /api/clientmaster/updateClient/:id - Update existing client (exported function)
+export const updateClient = async (req, res) => {
+    try {
+
+        const clientId = parseInt(req.params.id);
+
+        if (isNaN(clientId)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid client ID'
+            });
+        }
+
+        const {
+            ClientName,
+            ClientContactNumber,
+            ClientAddress,
+            ClientPAN,
+            ClientGST,
+            ClientCIN,
+            Client_SecreteKey
+        } = req.body;
+
+        console.log('Updating client:', clientId, req.body);
+
+  
+        // Check if client exists
+        const checkQuery = `SELECT * FROM ClientMaster WHERE AutoId = ${clientId}`;
+        const existingClient = await executeQuery(checkQuery);
+
+        if (!existingClient || existingClient.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'Client not found'
+            });
+        }
+
+        // Build update query dynamically based on provided fields
+        let updateFields = [];
+        let updateValues = [];
+
+        if (ClientName !== undefined) {
+            updateFields.push('ClientName = ?');
+            updateValues.push(ClientName);
+        }
+        if (ClientContactNumber !== undefined) {
+            updateFields.push('ClientContactNumber = ?');
+            updateValues.push(ClientContactNumber);
+        }
+        if (ClientAddress !== undefined) {
+            updateFields.push('ClientAddress = ?');
+            updateValues.push(ClientAddress);
+        }
+        if (ClientPAN !== undefined) {
+            updateFields.push('ClientPAN = ?');
+            updateValues.push(ClientPAN);
+        }
+        if (ClientGST !== undefined) {
+            updateFields.push('ClientGST = ?');
+            updateValues.push(ClientGST);
+        }
+        if (ClientCIN !== undefined) {
+            updateFields.push('ClientCIN = ?');
+            updateValues.push(ClientCIN);
+        }
+        if (Client_SecreteKey !== undefined) {
+            updateFields.push('Client_SecreteKey = ?');
+            updateValues.push(Client_SecreteKey);
+        }
+
+        // Only add fields if we have something to update
+        if (updateFields.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'No fields to update'
+            });
+        }
+
+        const updateQuery = `UPDATE ClientMaster SET ${updateFields.join(', ')} WHERE AutoId = ${clientId}`;
+
+        console.log('Update query:', updateQuery);
+        console.log('Update values:', updateValues);
+
+        await executeQuery(updateQuery, updateValues);
+
+        // Fetch the updated client
+        const selectQuery = `SELECT * FROM ClientMaster WHERE AutoId = ${clientId}`;
+        const updatedClient = await executeQuery(selectQuery);
+
+        console.log('Updated client:', updatedClient[0]);
+
+        res.json({
+            success: true,
+            message: 'Client updated successfully',
+            data: updatedClient[0]
+        });
+    } catch (error) {
+        console.error('Error updating client:', error);
         res.status(500).json({
             success: false,
             message: 'Internal server error',
@@ -97,7 +208,7 @@ export const getClientById = async (req, res) => {
             });
         }
 
-       
+
         const selectQuery = `
             SELECT * FROM ClientMaster 
             WHERE AutoId = ?
@@ -129,8 +240,55 @@ export const getClientById = async (req, res) => {
     }
 };
 
+// DELETE /api/clientmaster/deleteClient/:id - Delete client by ID
+export const deleteClient = async (req, res) => {
+    console.log("Hello from delete")
+    try {
+        const clientId = parseInt(req.params.id);
+
+        if (isNaN(clientId)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid client ID'
+            });
+        }
+
+        console.log('Deleting client with ID:', clientId);
+
+        // Check if client exists
+        const checkQuery = `SELECT * FROM ClientMaster WHERE AutoId = ?`;
+        const existingClient = await executeQuery(checkQuery, [clientId]);
+
+        if (!existingClient || existingClient.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'Client not found'
+            });
+        }
+
+        // Delete the client
+        const deleteQuery = `DELETE FROM ClientMaster WHERE AutoId = ?`;
+        await executeQuery(deleteQuery, [clientId]);
+
+        console.log('Client deleted successfully:', existingClient[0]);
+
+        res.json({
+            success: true,
+            message: 'Client deleted successfully',
+            data: existingClient[0]
+        });
+    } catch (error) {
+        console.error('Error deleting client:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+};
+
 // POST /api/clientmaster/addClient - Create new client
-router.post('/addClient', async (req, res) => {
+export const addClient = async (req, res) => {
     try {
         const {
             ClientName,
@@ -164,10 +322,7 @@ router.post('/addClient', async (req, res) => {
         console.log('Current User:', currentUser);
         console.log('Current DateTime:', currentDateTime);
 
-        // Escape single quotes to prevent SQL injection
-        const escapeString = (str) => str ? str.replace(/'/g, "''") : null;
-
-        // Insert new client with auto-generated Client_ClientId    
+        // Insert new client with auto-generated Client_ClientId using parameterized query
         const insertQuery = `
             INSERT INTO ClientMaster (
                 AutoId,
@@ -183,31 +338,31 @@ router.post('/addClient', async (req, res) => {
                 CreatedDate
             ) VALUES (
                 (SELECT ISNULL(MAX(AutoId), 0) + 1 FROM ClientMaster),
-                '${escapeString(ClientName)}',
-                ${ClientContactNumber ? `'${escapeString(ClientContactNumber)}'` : 'NULL'},
-                ${ClientAddress ? `'${escapeString(ClientAddress)}'` : 'NULL'},
-                ${ClientPAN ? `'${escapeString(ClientPAN)}'` : 'NULL'},
-                ${ClientGST ? `'${escapeString(ClientGST)}'` : 'NULL'},
-                ${ClientCIN ? `'${escapeString(ClientCIN)}'` : 'NULL'},
-                '${escapeString(autoGeneratedClientId)}',
-                ${Client_SecreteKey ? `'${escapeString(Client_SecreteKey)}'` : 'NULL'},
-                '${escapeString(currentUser)}',
-                GETDATE()
+                ?, ?, ?, ?, ?, ?, ?, ?, ?, GETDATE()
             )
         `;
 
-        console.log('Insert query:', insertQuery);
+        const insertParams = [
+            ClientName,
+            ClientContactNumber || null,
+            ClientAddress || null,
+            ClientPAN || null,
+            ClientGST || null,
+            ClientCIN || null,
+            autoGeneratedClientId,
+            Client_SecreteKey || null,
+            currentUser
+        ];
 
-        await executeQuery(insertQuery);
+      
+
+        await executeQuery(insertQuery, insertParams);
 
         // Fetch the newly created client
-        const selectQuery = `
-            SELECT * FROM ClientMaster 
-            WHERE Client_ClientId = '${escapeString(autoGeneratedClientId)}'
-        `;
+        const selectQuery = `SELECT * FROM ClientMaster WHERE Client_ClientId = ?`;
 
-        const newClient = await executeQuery(selectQuery);
-        console.log('Newly created client:', newClient[0]);
+        const newClient = await executeQuery(selectQuery, [autoGeneratedClientId]);
+        // console.log('Newly created client:', newClient[0]);
 
         res.status(201).json({
             success: true,
@@ -225,6 +380,4 @@ router.post('/addClient', async (req, res) => {
             error: error.message
         });
     }
-});
-
-export default router;
+};
